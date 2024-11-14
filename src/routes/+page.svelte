@@ -15,9 +15,8 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <section data-sveltekit-reload={shouldReload} onclick={(event) => {
-	const isAnchorElement = event.target && 'href' in event.target;
-	if (isAnchorElement) {
-		const url = new URL((event.target as HTMLAnchorElement).href);
+	if (event.target instanceof HTMLAnchorElement) {
+		const url = new URL(event.target.href);
 		shouldReload = url.pathname.startsWith('/docs');
 	}
 }}>
