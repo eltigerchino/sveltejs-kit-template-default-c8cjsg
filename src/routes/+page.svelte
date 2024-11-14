@@ -17,8 +17,7 @@
 <section data-sveltekit-reload={shouldReload} onclick={(event) => {
 	const isAnchorElement = event.target && 'href' in event.target;
 	if (isAnchorElement) {
-		const anchor = event.target as HTMLAnchorElement;
-		const url = new URL(anchor.href);
+		const url = new URL((event.target as HTMLAnchorElement).href);
 		shouldReload = url.pathname.startsWith('/docs');
 	}
 }}>
