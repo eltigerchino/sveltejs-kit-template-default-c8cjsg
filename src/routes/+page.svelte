@@ -1,7 +1,10 @@
-<script>
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcomeFallback from '$lib/images/svelte-welcome.png';
+<script lang="ts">
+	const content = `
+<a href="/about">Won't reload</a>
+<a href="/docs">Will reload</a>
+`;
+
+	let shouldReload = false;
 </script>
 
 <svelte:head>
@@ -9,23 +12,17 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcomeFallback} alt="Welcome" />
-			</picture>
-		</span>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<section data-sveltekit-reload={shouldReload} onclick={(event) => {
+	const isAnchorElement = event.target && 'href' in event.target;
+	if (isAnchorElement) {
+		const anchor = event.target as HTMLAnchorElement;
+		const url = new URL(anchor.href);
+		shouldReload = url.pathname.startsWith('/docs');
+	}
+}}>
+  {@html content}
 </section>
 
 <style>
